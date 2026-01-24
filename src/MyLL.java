@@ -30,16 +30,15 @@ public class MyLL<T> {
 
     public void addToBack(T toAdd) {
         Node<T> newNode = new Node<T>(toAdd, null, null);
-        if (head == null) {
+        if (head == null && tail == null) {
             head = newNode;
+            tail = newNode;
             return;
         }
-        Node<T> current = head;
-        while (current.next != null) {
-            current = current.next;
-        }
+        Node<T> current = tail;
         current.next = newNode;
         newNode.prev = current;
+        tail = newNode;
     }
     
     public void printBackwards() {
@@ -70,15 +69,30 @@ public class MyLL<T> {
 
     public T remove(T toRemove) {
         if (head == null) {
-            return null;
+            return null; // null
         };
-        if (head.value.equals(toRemove)) {
+        if (head.value.equals(toRemove)) { 
             head = head.next;
+            if (head == null) {
+                tail = null;
+                return toRemove;
+            }            
+            head.prev = null;
+            return toRemove;
         }
         Node<T> current = head;
         while (current != null && current.next != null) {
             if (current.next.value.equals(toRemove)) {
-                current.next = current.next.next;
+
+                if (current.next != null && current.next.next != null) {
+                    current.next = current.next.next; // change next links
+                    current.next.prev = current; // change prev links same as current.next.prev.prev
+                } else if (current.next == tail) {
+                    tail = current;
+                    tail.next = null;
+                    return toRemove;
+                }
+                return toRemove;
             }
             current = current.next;
         }

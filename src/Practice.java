@@ -27,7 +27,10 @@ public class Practice {
         list.addToBack('v');
         list.addToBack('q');
         
+        // list.printBackwards();
+        list.remove('q');
         list.printBackwards();
+                
 
         // list.printList(null);
         //        printList(head);
